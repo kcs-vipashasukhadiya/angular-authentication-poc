@@ -17,10 +17,15 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]]
-    });
+    if (this.authService.isLoggedIn) {
+      this.router.navigate(['/dashboard']);
+    }
+    else {
+      this.loginForm = this.formBuilder.group({
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]]
+      });
+    }
   }
 
   get f() {
@@ -42,9 +47,8 @@ export class LoginComponent implements OnInit {
           alert('Invalid Login!');
         }
       },
-      error: (err) => { console.log(err); },
+      error: (err) => {},
       complete: () => {
-        debugger;
         console.log('login completed');
         this.router.navigate(['/dashboard']);
       }
