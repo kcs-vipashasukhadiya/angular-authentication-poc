@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "userName": "vipasha_s",
+      "email": "vipasha.sukhadiya@rysun.com",
+      "password": "Pass@123"
+    },
+    {
+      "id": "2",
+      "userName": "admin",
+      "email": "admin@rysun.com",
+      "password": "admin@123"
+    },
+    {
+      "id": "3",
+      "userName": "testuser1",
+      "email": "test.user1@rysun.com",
+      "password": "Test@123"
+    },
+    {
+      "id": "4",
+      "userName": "testuser2",
+      "email": "test.user2@rysun.com",
+      "password": "Test@123"
+    },
+    {
+      "id": "5",
+      "userName": "testuser3",
+      "email": "test.user3@rysun.com",
+      "password": "Test@123"
+    },
+    {
+      "id": "6",
+      "userName": "testuser4",
+      "email": "test.user4@rysun.com",
+      "password": "Test@123"
+    },
+    {
+      "id": 7,
+      "userName": "testuser5",
+      "email": "test.user5@rysun.com",
+      "password": "Test@123"
+    }
+  ]
+}
