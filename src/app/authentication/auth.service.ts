@@ -10,7 +10,7 @@ import { User } from "../models/user.model";
 
 export class AuthService {
   private loggedIn:boolean = false;
-  private apiUrl = 'http://localhost:3000/users34';
+  private apiUrl = 'http://localhost:3000/users';
 
 
   constructor(private http: HttpClient) { }
