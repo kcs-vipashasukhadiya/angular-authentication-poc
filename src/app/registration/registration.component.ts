@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../authentication/auth.service';
 import { User } from '../models/user.model';
 import { CommonModule } from '@angular/common';
+import { PasswordMatchService } from '../validators/password-match.service';
+import { AsyncEmailValidatorService } from '../validators/async-email-validator.service';
+import { takeUntil } from 'rxjs';
+import { onDestroy } from '../authentication/on-destroy.service';
 
 @Component({
   selector: 'app-registration',
@@ -11,17 +15,27 @@ import { CommonModule } from '@angular/common';
   templateUrl: './registration.component.html',
 })
 export class RegistrationComponent implements OnInit {
+  title = 'user-registration';
+  authService = inject(AuthService);
+  formBuilder = inject(FormBuilder);
+  passwordMatchService = inject(PasswordMatchService);
+  asyncEmailValidatorService = inject(AsyncEmailValidatorService);
   registerForm: FormGroup;
   submitted: boolean = false;
-
-  constructor(private authService: AuthService, private formBuilder: FormBuilder) {}
+  destroy$ = onDestroy();
 
   ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      userName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]]
-    });
+    this.registerForm = this.formBuilder.group(
+      {
+        userName: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email], this.asyncEmailValidatorService.asyncEmailValidator()],
+        password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+        confirmPassword: ['', [Validators.required]]
+      },
+      {
+        validators: this.passwordMatchService.matchPassword,
+      } as any
+    );
   }
 
   get f() {
@@ -35,12 +49,15 @@ export class RegistrationComponent implements OnInit {
     }
       this.authService.getUserCount().then((count: number) => {
         let user: User = new User(count, this.f['userName'].value, this.f['email'].value, this.f['password'].value);
-        console.log(user);
-        debugger;
-        this.authService.register(user).subscribe({
+
+        this.authService.register(user)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
           next: (data) => console.log(data),
           error: (err) => console.error(err),
-          complete: () => console.log('user registration successfully')
+          complete: () => {
+            console.log('user registration successfully');
+          }
         })
       });
   }

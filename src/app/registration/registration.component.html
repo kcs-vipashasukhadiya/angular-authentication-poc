@@ -14,6 +14,7 @@
                 <div *ngIf="submitted && f['email'].errors" style="color: red;">
                   <div *ngIf="f['email'].errors['required']">Email is required</div>
                   <div *ngIf="f['email'].errors['email']">Invalid email</div>
+                  <div *ngIf="f['email'].errors['emailAlreadyExists']">Email already exists</div>
               </div>
             </div>
             <div class="field input-field">
@@ -25,6 +26,14 @@
                   <div *ngIf="f['password'].errors['maxlength']">Password must not exceed 20 characters</div>
               </div>
             </div>
+            <div class="field input-field">
+              <input type="password" formControlName="confirmPassword" placeholder="Confirm Password" class="password">
+              <i class='bx bx-hide eye-icon'></i>
+              <div *ngIf="submitted && f['confirmPassword'].errors" style="color: red;">
+                <div *ngIf="f['confirmPassword'].errors['required']">Confirm password is required</div>
+                <div *ngIf="f['confirmPassword'].errors['matchPassword']">Confirm password didn't match</div>
+            </div>
+          </div>
             <div class="field button-field">
                 <button (click)="register()">Registration</button>
             </div>

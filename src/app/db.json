@@ -37,10 +37,46 @@
       "password": "Test@123"
     },
     {
-      "id": 7,
+      "id": "7",
       "userName": "testuser5",
       "email": "test.user5@rysun.com",
       "password": "Test@123"
+    },
+    {
+      "id": 8,
+      "userName": "admin1",
+      "email": "admin1@rysun.com",
+      "password": "admin@123"
+    },
+    {
+      "id": 9,
+      "userName": "admin1",
+      "email": "admin1@rysun.com",
+      "password": "admin@123"
+    },
+    {
+      "id": 10,
+      "userName": "admin2",
+      "email": "admin2@rysun.com",
+      "password": "admin@123"
+    },
+    {
+      "id": 11,
+      "userName": "admin2",
+      "email": "admin2@rysun.com",
+      "password": "admin@123"
+    },
+    {
+      "id": 12,
+      "userName": "admin3",
+      "email": "admin3@rysun.com",
+      "password": "admin@123"
+    },
+    {
+      "id": 13,
+      "userName": "admin3",
+      "email": "admin3@rysun.com",
+      "password": "admin@123"
     }
   ]
 }
