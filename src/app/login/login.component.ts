@@ -3,8 +3,9 @@ import { AuthService } from '../authentication/auth.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Subscription, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { onDestroy } from '../authentication/on-destroy.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   authService = inject(AuthService);
   router = inject(Router);
   formBuilder = inject(FormBuilder);
+  toastr = inject(ToastrService);
   loginForm: FormGroup;
   submitted: boolean = false;
   destroy$ = onDestroy();
@@ -42,19 +44,18 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.f['email'].value, this.f['password'].value)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-      next: (data) => {
-        if (data.length > 0) {
-          console.log(data);
+        next: (data) => {
+          if (!data.length) {
+            this.toastr.error('Invalid login!');
+          }
+          else {
+            this.toastr.clear();
+          }
+        },
+        error: (err) => { this.toastr.error(err); },
+        complete: () => {
+          this.router.navigate(['/dashboard']);
         }
-        else {
-          alert('Invalid Login!');
-        }
-      },
-      error: (err) => {},
-      complete: () => {
-        console.log('login completed');
-        this.router.navigate(['/dashboard']);
-      }
-    })
+      })
   }
 }

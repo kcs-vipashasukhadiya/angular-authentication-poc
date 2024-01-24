@@ -41,11 +41,10 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.get(this.apiUrl).pipe(
-      tap((users: any) =>   {
-        let user = users.filter((a: User) => a.email === email && a.password === password);
+    return this.http.get(`${this.apiUrl}?email=${email}&password=${password}`).pipe(
+      tap((user: any[]) =>   {
         if (user.length > 0) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('currentUser', JSON.stringify(user[0]));
           this.isLoggedIn;
         }
       })
