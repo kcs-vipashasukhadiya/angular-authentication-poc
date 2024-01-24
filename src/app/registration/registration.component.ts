@@ -7,6 +7,7 @@ import { PasswordMatchService } from '../validators/password-match.service';
 import { AsyncEmailValidatorService } from '../validators/async-email-validator.service';
 import { takeUntil } from 'rxjs';
 import { onDestroy } from '../authentication/on-destroy.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration',
@@ -20,6 +21,7 @@ export class RegistrationComponent implements OnInit {
   formBuilder = inject(FormBuilder);
   passwordMatchService = inject(PasswordMatchService);
   asyncEmailValidatorService = inject(AsyncEmailValidatorService);
+  toastr = inject(ToastrService);
   registerForm: FormGroup;
   submitted: boolean = false;
   destroy$ = onDestroy();
@@ -56,7 +58,7 @@ export class RegistrationComponent implements OnInit {
           next: (data) => console.log(data),
           error: (err) => console.error(err),
           complete: () => {
-            console.log('user registration successfully');
+            this.toastr.success('User registration successfully!');
           }
         })
       });
